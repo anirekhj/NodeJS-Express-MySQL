@@ -2,19 +2,22 @@ const express = require('express');
 let mysqlssh = require('mysql-ssh');
 const app = express();
 
+const user = ''
+const pass = ''
+const banner = ''
 
 const connectionInfo = [{
     // Add your bluenose/timberlea creds here
     host: 'timberlea.cs.dal.ca',
-    user: '****',
-    password: '****'
+    user: user,
+    password: pass
 },
 {
     // Add your FCS DB creds here
     host: 'db.cs.dal.ca',
-    user: '*****',
-    password: '*****',
-    database: '****'
+    user: user,
+    password: banner,
+    database: user
 }]
 
 let con = mysqlssh.connect(
@@ -25,6 +28,9 @@ function generateResponse(err, results) {
     // console.log(results)
     if (err && err.errno === 1062) {
         return [409, 'The job already exists.']
+    }
+    if (err && err.errno === 1644) {
+        return [400, err.sqlMessage]
     }
     if (results === undefined || results.length == 0) {
         return [404, 'No jobs found.']
