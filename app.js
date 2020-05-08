@@ -27,7 +27,7 @@ function generateResponse(err, results) {
         return [409, 'The job already exists.']
     }
     if (results === undefined || results.length == 0) {
-        return [404, 'No results found.']
+        return [404, 'No jobs found.']
     }
     if (results.info) {
         if (results.info === "Rows matched: 0  Changed: 0  Warnings: 0") {
@@ -39,6 +39,9 @@ function generateResponse(err, results) {
         else if (results.info === "Rows matched: 1  Changed: 1  Warnings: 0") {
             return [200, 'Job quantity successfully updated.']
         }
+    }
+    if (!results.info && results.affectedRows === 1) {
+        return [200, 'Added a new Job successfully.']
     }
     return [200, results]
 }
@@ -106,7 +109,6 @@ app.put('/jobs/:jobID/:partID/:quantity', (req, res) => {
     console.log(sql)
     con.then(client => {
         client.query(sql, (err, results, fields) => {
-            console.log(err, results);
             [stat, data] = generateResponse(err, results);
             res.status(stat).send(data);
         })
