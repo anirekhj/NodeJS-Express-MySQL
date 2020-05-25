@@ -22,7 +22,7 @@ let con = mysqlssh.connect(
     connectionInfo[0], connectionInfo[1]
 )
 
-function generateResponse(err, results) {
+function generateResponse952(err, results) {
     if (err && err.errno === 1062) {
         return [409, 'The job already exists.']
     }
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
     let sql = 'show tables;'
     con.then(client => {
         client.query(sql, (err, results, fields) => {
-            [stat, data] = generateResponse(err, results);
+            [stat, data] = generateResponse952(err, results);
             res.status(stat).send(data);
         })
     })
@@ -64,11 +64,11 @@ app.get('/', (req, res) => {
 });
 
 // get all jobs
-app.get('/jobs', (req, res) => {
+app.get('/jobs952', (req, res) => {
     let sql = 'SELECT * FROM `Jobs`'
     con.then(client => {
         client.query(sql, (err, results, fields) => {
-            [stat, data] = generateResponse(err, results);
+            [stat, data] = generateResponse952(err, results);
             res.status(stat).send(data);
         })
     })
@@ -78,11 +78,11 @@ app.get('/jobs', (req, res) => {
 });
 
  // get a specific job
-app.get('/jobs/:jobID/:partID', (req, res) => {
+app.get('/jobs952/:jobID/:partID', (req, res) => {
     let sql = 'SELECT * FROM `Jobs` WHERE JobName = "' + req.params.jobID + '" AND PartID = ' + req.params.partID;
     con.then(client => {
         client.query(sql, (err, results, fields) => {
-            [stat, data] = generateResponse(err, results);
+            [stat, data] = generateResponse952(err, results);
             res.status(stat).send(data);
         })
     })
@@ -92,12 +92,12 @@ app.get('/jobs/:jobID/:partID', (req, res) => {
 });
 
 // post a job
-app.post('/jobs/:jobID/:partID/:quantity', (req, res) => {
+app.post('/jobs952/:jobID/:partID/:quantity', (req, res) => {
     let sql = 'INSERT INTO `ajain`.`Jobs`(`JobName`,`PartID`,`Quantity`)VALUES("' + req.params.jobID + '",' + req.params.partID + ',' + req.params.quantity + ')'
     // console.log(sql)
     con.then(client => {
         client.query(sql, (err, results, fields) => {
-            [stat, data] = generateResponse(err, results);
+            [stat, data] = generateResponse952(err, results);
             res.status(stat).send(data);
         })
     })
@@ -107,12 +107,12 @@ app.post('/jobs/:jobID/:partID/:quantity', (req, res) => {
 });
 
 // update a job quantity
-app.put('/jobs/:jobID/:partID/:quantity', (req, res) => {
+app.put('/jobs952/:jobID/:partID/:quantity', (req, res) => {
     let sql = 'UPDATE `ajain`.`Jobs` SET `Quantity` = ' + req.params.quantity + ' WHERE `JobName` = "' + req.params.jobID + '" AND `PartID` = ' + req.params.partID
     console.log(sql)
     con.then(client => {
         client.query(sql, (err, results, fields) => {
-            [stat, data] = generateResponse(err, results);
+            [stat, data] = generateResponse952(err, results);
             res.status(stat).send(data);
         })
     })
