@@ -1,2 +1,2 @@
 # NodeJS-Express-MySQL
-First web server using NodeJS/Express/MySQL over SSH
+Dockerized web server using NodeJS/Express/MySQL over SSH deployed and hosted on an AWS EC2 instance.
